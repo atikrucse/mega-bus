@@ -27,7 +27,7 @@
     </header>
 
     <!--Booking Section-->
-    <main class="main-content container">
+    <main id="main-section" class="main-content container">
 
         <div class="booking-content">
             <h1>Mega City Bus</h1>
@@ -112,26 +112,44 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-style">Book Now</button>
+            <button id="bookNowBtn" class="btn-style">Book Now</button>
         </div>
     </main>
 
-    <!--Thank You-->
+    <!-- Extra Task for Book Now Button -->
+    <section id="purchased-section">
+        <h2 class="confirmHeading">Confirm Purchased</h2>
+        <div class="confirm">
+            <p>Subtotal: <span id="confirmSubtotal" class="confirmValue">00</span> </p>
+            <br>
+            <p>Vat: <span id="confirmVat" class="confirmValue">00</span></p>
+            <br>
+            <p>Total: <span id="confirmTotal" class="confirmValue">00</span></p>
+            <br>
+            <button class="confirmBtn">Confirm</button>
+        </div>
+    </section>
+
+    
     <script>
 
-        //FirstClass Plus Button Event Handler
+        //First Class Plus Button Event Handler
         const increaseFirstClassSeat = document.getElementById('increaseFirstClassSeat');
         increaseFirstClassSeat.addEventListener('click', function () {
 
             //Update Seat Number
             seatStatus = changeSeatNumber('firstClass', 1);
             //Update Subtotal
-            const subTotal = updateSubtotalForFirstClass('subTotal', 150);
+            const subTotal = updateSubtotal('subTotal', 150);
             //Update VAT
             const vat = updateVat('vatCast', subTotal);
             //Update Total
             updateTotal('currentTotal', subTotal, vat);
-
+            
+            // extra task after click book now button
+            updateTotal('confirmTotal', subTotal, vat);
+            updateSubtotal('confirmSubtotal', 150);
+            updateVat('confirmVat', subTotal);
 
         })
 
@@ -141,11 +159,16 @@
             //Update Sit Number
             changeSeatNumber('economyClass', 1);
             //Update Subtotal
-            const subTotal = updateSubtotalForFirstClass('subTotal', 100);
+            const subTotal = updateSubtotal('subTotal', 100);
             //Update VAT
             const vat = updateVat('vatCast', subTotal);
             //Update Total
             updateTotal('currentTotal', subTotal, vat);
+
+            // extra task after click book now button
+            updateTotal('confirmTotal', subTotal, vat);
+            updateSubtotal('confirmSubtotal', 100);
+            updateVat('confirmVat', subTotal);
         })
 
 
@@ -156,11 +179,16 @@
             seatStatus = changeSeatNumber('firstClass', -1)
             console.log(seatStatus);
             //Update Subtotal
-            const subTotal = updateSubtotalForFirstClass('subTotal', -150);
+            const subTotal = updateSubtotal('subTotal', -150);
             //Update VAT
             const vat = updateVat('vatCast', subTotal);
             //Update Total
             updateTotal('currentTotal', subTotal, vat);
+
+            // extra task after click book now button
+            updateTotal('confirmTotal', subTotal, vat);
+            updateSubtotal('confirmSubtotal', 150);
+            updateVat('confirmVat', subTotal);
         })
 
 
@@ -170,11 +198,16 @@
             //Update Sit Number
             changeSeatNumber('economyClass', -1);
             //Update Subtotal
-            const subTotal = updateSubtotalForFirstClass('subTotal', -100);
+            const subTotal = updateSubtotal('subTotal', -100);
             //Update VAT
             const vat = updateVat('vatCast', subTotal);
             //Update Total
             updateTotal('currentTotal', subTotal, vat);
+
+            //extra task after click book now button
+            updateTotal('confirmTotal', subTotal, vat);
+            updateSubtotal('confirmSubtotal', 100);
+            updateVat('confirmVat', subTotal);
         })
 
         //function declare area
@@ -194,7 +227,7 @@
         }
 
         //Function to update Subtotal for First class
-        function updateSubtotalForFirstClass(id, cost) {
+        function updateSubtotal(id, cost) {
             const currentSubtotalAmount = document.getElementById(id).innerText;
             const currentSubtotalAmountNumber = parseFloat(currentSubtotalAmount);
             const subtotalAmount = (currentSubtotalAmountNumber + cost);
@@ -231,8 +264,18 @@
                 console.log('Negative value cant acceptable')
             } else {
                 document.getElementById(id).innerText = currentTotalNumber;
+
             }
         }
+
+        // Book Now Button Event handler
+        const bookNowBtn = document.getElementById('bookNowBtn');
+        bookNowBtn.addEventListener('click', function () {
+            const mainSection = document.getElementById("main-section");
+            mainSection.style.display = 'none';
+            const purchasedSection = document.getElementById("purchased-section");
+            purchasedSection.style.display = "block";
+        })
     </script>
 </body>
 

@@ -122,3 +122,30 @@ nav ul li a:hover, a.active{
     display: flex;
     justify-content: space-between;
 }
+.confirmHeading{
+    color: rgb(12, 53, 2);
+    padding: 40px 0px;
+    font-weight: 900;
+    font-size: 40px;
+}
+#purchased-section{
+    display: none;
+    color: white;
+    margin: 80px 400px ;
+    padding: 30px;
+    height: 400px;
+    background-color: grey;
+    border-radius: 20px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+}
+.confirmValue{
+    
+    color: black;
+}
+.confirmBtn{
+    padding: 8px 15px;
+    border-radius: 10px;
+    background-color: green;
+}
