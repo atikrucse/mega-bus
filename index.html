@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
     <!-- Stylesheet -->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 
 <body>
@@ -31,7 +31,9 @@
 
         <div class="booking-content">
             <h1>Mega City Bus</h1>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the
+                industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and
+                scrambled it to make a type specimen book.</p>
         </div>
 
 
@@ -40,42 +42,44 @@
 
             <div class="inputs">
                 <div class="input-group">
-                    <label" for="">From</label>
-                    <input class="inp-style" type="text" name="" placeholder="Dhaka">
+                    <label for="from">From</label>
+                    <input id="from" class="inp-style" type="text" name="from" placeholder="Dhaka">
                 </div>
                 <div class="input-group">
-                    <label" for="">From</label>
-                    <input class="inp-style" type="text" name="" placeholder="Chittagone">
+                    <label for="to">To</label>
+                    <input id="to" class="inp-style" type="text" name="to" placeholder="Chittagone">
                 </div>
             </div>
 
             <div class="inputs">
                 <div class="input-group">
-                    <label" for="">Departure</label>
-                    <input class="inp-style" type="date" name="">
+                    <label for="departure">Departure</label>
+                    <input id="departure" class="inp-style" type="date" name="departure">
                 </div>
                 <div class="input-group">
-                    <label for="">Return</label>
-                    <input class="inp-style" type="date" name="">
+                    <label for="return">Return</label>
+                    <input id="return" class="inp-style" type="date" name="return">
                 </div>
             </div>
             <div class="inputs">
                 <div class="input-group f-class">
-                <div>
-                    <label for="">First Class ($150)</label>
-                    <input class="inp-style inp-width" type="number" name="">
-                </div>
-                <div class="plus-minus-btn">
-                    <p>+ -</p>
-                </div>
-            </div>
-                <div class="input-group f-class">
                     <div>
-                        <label for="">Economy ($100)</label>
-                        <input class="inp-style inp-width" type="number" name="">
+                        <label for="firstClass">First Class ($150)</label>
+                        <input id="firstClass" class="inp-style inp-width" type="text" name="firstClass" value="0">
                     </div>
                     <div class="plus-minus-btn">
-                        <p> <span>+</span> <span>-</span> </p>
+                        <button id="increaseFirstClassSeat" class="btn btn-lg">+</button>
+                        <button id="decreaseFirstClassSeat" class="btn btn-lg">-</button>
+                    </div>
+                </div>
+                <div class="input-group f-class">
+                    <div>
+                        <label for="economyClass">Economy ($100)</label>
+                        <input id="economyClass" class="inp-style inp-width" type="text" name="economyClass" value="0">
+                    </div>
+                    <div class="plus-minus-btn">
+                        <button id="increaseEconomySeat" class="btn btn-lg">+</button>
+                        <button id="decreaseEconomySeat" class="btn btn-lg">-</button>
                     </div>
                 </div>
 
@@ -86,7 +90,7 @@
                         <p>Subtotal</p>
                     </div>
                     <div class="right">
-                        <p>$500</p>
+                        <p>$ <span id="subTotal">00</span></p>
                     </div>
                 </div>
 
@@ -95,7 +99,7 @@
                         <p>Charge 10% VAT</p>
                     </div>
                     <div class="right">
-                        <p>$50</p>
+                        <p>$ <span id="vatCast">00</span></p>
                     </div>
                 </div>
                 <hr>
@@ -104,7 +108,7 @@
                         <h4>Total</h4>
                     </div>
                     <div class="right">
-                        <p>$550</p>
+                        <p>$ <span id="currentTotal">00</span></p>
                     </div>
                 </div>
             </div>
@@ -113,6 +117,123 @@
     </main>
 
     <!--Thank You-->
+    <script>
+
+        //FirstClass Plus Button Event Handler
+        const increaseFirstClassSeat = document.getElementById('increaseFirstClassSeat');
+        increaseFirstClassSeat.addEventListener('click', function () {
+
+            //Update Seat Number
+            seatStatus = changeSeatNumber('firstClass', 1);
+            //Update Subtotal
+            const subTotal = updateSubtotalForFirstClass('subTotal', 150);
+            //Update VAT
+            const vat = updateVat('vatCast', subTotal);
+            //Update Total
+            updateTotal('currentTotal', subTotal, vat);
+
+
+        })
+
+        //Economy Plus Button Event Handler
+        const increaseEconomySeat = document.getElementById('increaseEconomySeat');
+        increaseEconomySeat.addEventListener('click', function () {
+            //Update Sit Number
+            changeSeatNumber('economyClass', 1);
+            //Update Subtotal
+            const subTotal = updateSubtotalForFirstClass('subTotal', 100);
+            //Update VAT
+            const vat = updateVat('vatCast', subTotal);
+            //Update Total
+            updateTotal('currentTotal', subTotal, vat);
+        })
+
+
+        //FirstClass Minus Button Event Handler
+        const decreaseFirstClassSeat = document.getElementById('decreaseFirstClassSeat');
+        decreaseFirstClassSeat.addEventListener('click', function () {
+            //Update Sit Number
+            seatStatus = changeSeatNumber('firstClass', -1)
+            console.log(seatStatus);
+            //Update Subtotal
+            const subTotal = updateSubtotalForFirstClass('subTotal', -150);
+            //Update VAT
+            const vat = updateVat('vatCast', subTotal);
+            //Update Total
+            updateTotal('currentTotal', subTotal, vat);
+        })
+
+
+        //Economy minus Button Event Handler
+        const decreaseEconomySeat = document.getElementById('decreaseEconomySeat');
+        decreaseEconomySeat.addEventListener('click', function () {
+            //Update Sit Number
+            changeSeatNumber('economyClass', -1);
+            //Update Subtotal
+            const subTotal = updateSubtotalForFirstClass('subTotal', -100);
+            //Update VAT
+            const vat = updateVat('vatCast', subTotal);
+            //Update Total
+            updateTotal('currentTotal', subTotal, vat);
+        })
+
+        //function declare area
+
+        // function to change seat Number
+        function changeSeatNumber(id, number) {
+            //var updateValue = 0;
+            const currentValue = document.getElementById(id).value;
+            const currentValueNumber = parseFloat(currentValue);
+            updateValue = currentValueNumber + number;
+
+            if (updateValue < 0) {
+                alert("A seat num ber can not be negative.");
+            } else {
+                document.getElementById(id).value = updateValue;
+            }
+        }
+
+        //Function to update Subtotal for First class
+        function updateSubtotalForFirstClass(id, cost) {
+            const currentSubtotalAmount = document.getElementById(id).innerText;
+            const currentSubtotalAmountNumber = parseFloat(currentSubtotalAmount);
+            const subtotalAmount = (currentSubtotalAmountNumber + cost);
+
+            if (subtotalAmount < 0) {
+                console.log('Negative value cant acceptable')
+            } else {
+                document.getElementById(id).innerText = subtotalAmount;
+            }
+            return subtotalAmount;
+        }
+
+        // Function for Update vat
+        function updateVat(id, subTotal) {
+            const currentVat = document.getElementById(id).innerText;
+            const currentVatNumber = parseFloat(currentVat);
+            const vat = (10 * subTotal) / 100;
+
+            if (vat < 0) {
+                console.log('Negative value cant acceptable')
+            } else {
+                document.getElementById(id).innerText = vat;
+            }
+            return vat;
+        }
+
+        // Function for Update Total
+        function updateTotal(id, subTotal, vat) {
+            const currentTotal = document.getElementById(id).innerText;
+            let currentTotalNumber = parseFloat(currentTotal);
+            currentTotalNumber = subTotal + vat;
+
+            if (vat < 0) {
+                console.log('Negative value cant acceptable')
+            } else {
+                document.getElementById(id).innerText = currentTotalNumber;
+            }
+        }
+    </script>
 </body>
 
 </html>
